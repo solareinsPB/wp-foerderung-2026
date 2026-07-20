@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Vielen Dank für Ihre Rückmeldung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blau: #1f36cb;
+    --gelb: #fec900;
+    --text: #24292f;
+    --grau: #6b7280;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background: #f5f6fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .topbar {
+    background: var(--blau);
+    height: 8px;
+  }
+  .topbar::after {
+    content: '';
+    display: block;
+    height: 8px;
+    background: var(--gelb);
+    width: 33%;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+  }
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(31, 54, 203, 0.08);
+    max-width: 560px;
+    width: 100%;
+    padding: 48px 40px;
+    text-align: center;
+  }
+  .icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--gelb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+  }
+  .icon svg { width: 36px; height: 36px; }
+  h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--blau);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  p.hinweis {
+    font-size: 13px;
+    color: var(--grau);
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+  .absender {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 13px;
+    color: var(--grau);
+  }
+  .absender strong { color: var(--text); }
+  footer {
+    text-align: center;
+    padding: 24px 20px;
+    font-size: 12px;
+    color: var(--grau);
+  }
+  footer a { color: var(--grau); }
+  @media (max-width: 480px) {
+    .card { padding: 36px 24px; }
+    h1 { font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .card { animation: einblenden 0.4s ease-out; }
+    @keyframes einblenden {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<main>
+  <div class="card">
+    <div class="icon" id="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1f36cb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1 id="titel">Vielen Dank für Ihre Rückmeldung!</h1>
+    <div id="inhalt"></div>
+    <div class="absender" id="absender"></div>
+  </div>
+</main>
+<footer>
+  Ein Service der solareins Gruppe
+</footer>
+<script>
+  var params = new URLSearchParams(window.location.search);
+  var antwort = params.get('a') || '';
+  var gkey = (params.get('g') || '').toLowerCase();
+
+  var gesellschaften = {
+    zsd:  'ZSD Solar',
+    cet:  'CET Technology',
+    set:  'SET Schmidtlein Energietechnik',
+    saf:  'SAF Energiesysteme',
+    rmw:  'RMW',
+    viva: 'VIVA Solar',
+    sop:  'Solarplatz'
+  };
+  var gname = gesellschaften[gkey] || 'der solareins Gruppe';
+
+  var varianten = {
+    interesse: {
+      titel: 'Vielen Dank – wir melden uns bei Ihnen!',
+      text: '<p>Ihre Anfrage ist bei uns eingegangen. Unser Team erstellt Ihnen eine <strong>aktuelle, unverbindliche Berechnung</strong> auf Basis der neuen Förderkonditionen und meldet sich in den nächsten Tagen persönlich bei Ihnen.</p><p class="hinweis">Sie müssen nichts weiter tun. Falls Sie vorab Fragen haben, antworten Sie einfach auf unsere E-Mail.</p>'
+    },
+    spaeter: {
+      titel: 'Danke – wir halten Sie auf dem Laufenden!',
+      text: '<p>Gut zu wissen, dass Ihr Interesse weiterhin besteht. Wir haben uns Ihre Rückmeldung notiert und melden uns zu gegebener Zeit wieder bei Ihnen – ohne Sie zwischendurch mit unnötigen Nachrichten zu belästigen.</p><p class="hinweis">Ein Tipp: Die Förderhöchstbeträge sinken zum 21.07.2026 und danach halbjährlich weiter. Falls sich Ihre Pläne konkretisieren, antworten Sie einfach auf unsere E-Mail.</p>'
+    },
+    kein: {
+      titel: 'Vielen Dank für Ihre Rückmeldung',
+      text: '<p>Wir haben notiert, dass für Sie aktuell kein Interesse mehr besteht, und passen unsere Unterlagen entsprechend an. Sie erhalten von uns keine weiteren Nachrichten zu diesem Vorgang.</p><p class="hinweis">Falls sich Ihre Situation später einmal ändert: Wir sind gerne wieder für Sie da.</p>'
+    }
+  };
+
+  var v = varianten[antwort] || {
+    titel: 'Vielen Dank für Ihre Rückmeldung!',
+    text: '<p>Ihre Rückmeldung ist bei uns eingegangen.</p>'
+  };
+
+  document.getElementById('titel').textContent = v.titel;
+  document.getElementById('inhalt').innerHTML = v.text;
+  document.getElementById('absender').innerHTML = 'Ihr Team von <strong>' + gname + '</strong>';
+  document.title = v.titel;
+</script>
+</body>
+</html>
